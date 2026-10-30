@@ -1,0 +1,74 @@
+<!doctype html><html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>ViewPix অ্যাডমিন</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+<style>:root{--bg:#0f0f17;--c1:#171723;--c2:#1f1f2e;--ln:#2c2c40;--tx:#f2f1fa;--mut:#9d9bb5;--a:#7c5cff;--b:#ff5c8a;--ok:#3dd68c;--red:#ff7a7a;--gold:#ffc94a}*{box-sizing:border-box;margin:0}body{background:var(--bg);color:var(--tx);font-family:'Hind Siliguri',system-ui,sans-serif;max-width:760px;margin:auto;padding:14px 14px 60px}
+h1{font-size:21px}h2{font-size:17px;margin:14px 0 8px}.k{color:var(--mut);font-size:14px}input,select,textarea{width:100%;background:var(--c2);border:1px solid var(--ln);border-radius:12px;padding:10px 12px;color:var(--tx);font:inherit;margin:4px 0 8px;outline:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;height:38px;padding:0 14px;border:0;border-radius:12px;font:inherit;font-weight:600;cursor:pointer;color:#fff;background:linear-gradient(90deg,var(--a),var(--b));font-size:14px}.btn.g{background:var(--c2);border:1px solid var(--ln);color:var(--tx)}.btn.r{background:rgba(255,122,122,.14);color:var(--red);border:1px solid rgba(255,122,122,.35)}.btn.o{background:rgba(61,214,140,.16);color:var(--ok);border:1px solid rgba(61,214,140,.4)}
+.card{background:var(--c1);border:1px solid var(--ln);border-radius:14px;padding:12px;margin-bottom:10px}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.row>.f{flex:1;min-width:120px}
+.tabs{display:flex;gap:6px;position:sticky;top:0;background:var(--bg);padding:8px 0;overflow:auto;z-index:5}.tabs button{white-space:nowrap;border:1px solid var(--ln);background:var(--c1);color:var(--mut);border-radius:99px;padding:8px 14px;font:inherit;cursor:pointer}.tabs button.on{background:var(--a);border-color:var(--a);color:#fff}
+.g2{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.g2 img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px}.bd{font-size:12px;padding:0 8px;border-radius:99px;background:#2f7bff;color:#fff}.bd.f{background:#ff5c3d}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#000;border:1px solid var(--ln);padding:9px 16px;border-radius:12px;display:none;z-index:20}</style></head>
+<body><div id="root"></div><div id="toast"></div>
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import{getAuth,onAuthStateChanged,signInWithEmailAndPassword,signOut}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import{getFirestore,doc,getDoc,setDoc,updateDoc,deleteDoc,addDoc,collection,query,where,orderBy,limit,getDocs}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+const app=initializeApp({apiKey:"AIzaSyD1uWle_USBMBO_rJuT64TMCmmzyO1rdH8",authDomain:"techcraft-gigs.firebaseapp.com",projectId:"techcraft-gigs",storageBucket:"techcraft-gigs.firebasestorage.app",messagingSenderId:"402779044950",appId:"1:402779044950:web:f728c347d9d23d18b48ff7"}),auth=getAuth(app),db=getFirestore(app);
+const $=s=>document.querySelector(s),esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const bn=n=>String(n).replace(/\d/g,d=>'০১২৩৪৫৬৭৮৯'[d]),tk=n=>'৳'+bn(Math.round(n).toLocaleString('en-US'));
+let tT;const toast=m=>{const t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(tT);tT=setTimeout(()=>t.style.display='none',2200)};
+const docs=async q=>(await getDocs(q)).docs.map(d=>({id:d.id,...d.data()}));
+const DEF={prize:'৳৫০',prizeW:'৳২০০',prizeM:'৳৫০০',theme:'',prizeNote:'বিজয়ী বিকাশে পাবেন',blogUrl:'',wa:'8801942319608',blue:120,fire:150,minPhotos:10,minViews:1000,minDl:0};
+let CFG={...DEF},tab='cfg',USERS=[];const DAY=864e5;
+const TABS=[['cfg','সেটিংস'],['win','বিজয়ী'],['bdg','ব্যাজ'],['mon','মনিটাইজেশন'],['dist','আয় বণ্টন'],['pho','ছবি']];
+function shell(){$('#root').innerHTML=`<div class="row"><h1 class="f">🛠️ ViewPix অ্যাডমিন</h1><button class="btn g" id="lo">বের হন</button></div><div class="tabs">${TABS.map(t=>`<button data-t="${t[0]}" class="${tab===t[0]?'on':''}">${t[1]}</button>`).join('')}</div><div id="app"></div>`;
+ $('#lo').onclick=()=>signOut(auth);document.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{tab=b.dataset.t;shell();draw()})}
+async function draw(){$('#app').innerHTML='<p class="k">লোড হচ্ছে…</p>';try{await({cfg,win,bdg,mon,dist,pho}[tab])()}catch(e){console.error(e);$('#app').innerHTML='<div class="card">লোড হয়নি: '+esc(e.code||e.message)+'</div>'}}
+async function loadUsers(){USERS=await docs(collection(db,'vp_users'))}
+const F=(k,l,t)=>`<label class="k">${l}</label><input data-f="${k}" ${t?'inputmode="numeric"':''} value="${esc(CFG[k])}">`;
+async function cfg(){
+ $('#app').innerHTML=`<div class="card">${F('prize','২৪ ঘণ্টার কনটেস্টের প্রাইজ (লেখা)')}${F('prizeW','৭ দিনের প্রাইজ')}${F('prizeM','৩০ দিনের প্রাইজ')}${F('theme','এখনকার থিম (ঐচ্ছিক, যেমন: শীতের সকাল)')}${F('prizeNote','প্রাইজের নিচের ছোট লেখা')}</div>
+ <div class="card">${F('blogUrl','Blogger ডাউনলোড পেজের লিংক (যেমন https://viewpix.blogspot.com/p/download.html)')}${F('wa','তোমার WhatsApp (৮৮০১… সহ)')}${F('blue','Blue ব্যাজ মাসিক দাম','n')}${F('fire','Fire ব্যাজ মাসিক দাম','n')}</div>
+ <div class="card"><b>মনিটাইজেশনের শর্ত</b>${F('minPhotos','কমপক্ষে ছবি','n')}${F('minViews','কমপক্ষে মোট ভিউ','n')}${F('minDl','কমপক্ষে মোট ডাউনলোড (০ = শর্ত নেই)','n')}</div><button class="btn" id="sv">সেভ করুন</button>`;
+ $('#sv').onclick=async()=>{document.querySelectorAll('[data-f]').forEach(i=>{const k=i.dataset.f;CFG[k]=['blue','fire','minPhotos','minViews','minDl'].includes(k)?(parseInt(i.value.replace(/\D/g,''))||0):i.value.trim()});try{await setDoc(doc(db,'vp_config','main'),CFG);toast('সেভ হয়েছে ✓')}catch(e){toast('সেভ হয়নি')}}}
+async function win(){
+ const sh=Date.now()+6*36e5,dn=Math.floor(sh/DAY),iso=n=>new Date(n*DAY).toISOString().slice(0,10);const d=new Date(sh);
+ const pm=new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth()-1,1)).toISOString().slice(0,7);
+ const P=[['গতকালের (২৪ ঘণ্টা)','d'+iso(dn-1),CFG.prize],['গত সপ্তাহের (৭ দিন)','w'+(Math.floor((dn-2)/7)-1),CFG.prizeW],['গত মাসের (৩০ দিন)','m'+pm,CFG.prizeM]];
+ let h='<p class="k">সময় শেষ হওয়া কনটেস্টের সেরা ৩ জন। প্রাইজ নিজে বিকাশ/নগদে পাঠাবে।</p>';
+ for(const[n,cid,pz]of P){const L=(await docs(query(collection(db,'vp_photos'),where('cid','==',cid)))).filter(p=>!p.hidden).sort((a,b)=>b.votes-a.votes).slice(0,3);
+  h+=`<h2>${n} বিজয়ী · প্রাইজ ${esc(pz)}</h2>`;
+  for(const[i,p]of L.entries()){let num='';try{const s=await getDoc(doc(db,'vp_pay',p.uid));if(s.exists())num=s.data().num}catch(e){}
+   h+=`<div class="card row"><img src="${esc(p.th)}" style="width:64px;height:64px;border-radius:10px;object-fit:cover"><div class="f"><b>#${bn(i+1)} ${esc(p.name)}</b><div class="k">❤ ${bn(p.votes)} ভোট · ${esc(p.title||'')}</div><div class="k">${num?'📱 '+esc(num):'নম্বর দেয়নি (WhatsApp এ জিজ্ঞেস করো)'}</div></div></div>`}
+  if(!L.length)h+='<div class="card k">কোনো ছবি ছিল না।</div>'}
+ $('#app').innerHTML=h}
+async function bdg(){await loadUsers();
+ $('#app').innerHTML=`<input id="q" placeholder="🔍 নাম বা ইমেইলের অংশ"><div id="ul"></div>`;
+ const show=()=>{const q=$('#q').value.trim().toLowerCase(),now=Date.now();$('#ul').innerHTML=USERS.filter(u=>!q||(u.name||'').toLowerCase().includes(q)).sort((a,b)=>(b.badgeUntil>now)-(a.badgeUntil>now)||b.ts-a.ts).slice(0,50).map(u=>{const on=u.badgeUntil>now;return `<div class="card"><div class="row"><b class="f">${esc(u.name)} ${on?`<span class="bd ${u.badge==='fire'?'f':''}">${u.badge}</span>`:''}</b><span class="k">${on?'মেয়াদ '+new Date(u.badgeUntil).toLocaleDateString('bn-BD'):'ব্যাজ নেই'}</span></div><div class="row" style="margin-top:6px"><button class="btn o" data-b="blue" data-u="${u.id}">Blue +৩০ দিন</button><button class="btn o" data-b="fire" data-u="${u.id}">Fire +৩০ দিন</button>${on?`<button class="btn r" data-b="" data-u="${u.id}">বন্ধ</button>`:''}</div></div>`}).join('')||'<div class="card k">কেউ নেই।</div>';
+  document.querySelectorAll('[data-b]').forEach(b=>b.onclick=async()=>{const u=USERS.find(x=>x.id===b.dataset.u),t=b.dataset.b;try{if(!t){u.badge='';u.badgeUntil=0}else{u.badge=t;u.badgeUntil=Math.max(Date.now(),u.badge===t&&u.badgeUntil>Date.now()?u.badgeUntil:0)+30*DAY}await updateDoc(doc(db,'vp_users',u.id),{badge:u.badge,badgeUntil:u.badgeUntil});toast('হয়েছে ✓');show()}catch(e){toast('হয়নি')}})};
+ $('#q').oninput=show;show()}
+async function mon(){await loadUsers();const A=USERS.filter(u=>u.mon==='applied'),O=USERS.filter(u=>u.mon==='on');let h='<h2>আবেদন ('+bn(A.length)+')</h2>';
+ for(const u of A){let num='';try{const s=await getDoc(doc(db,'vp_pay',u.id));if(s.exists())num=s.data().num}catch(e){}const ph=await docs(query(collection(db,'vp_photos'),where('uid','==',u.id)));
+  h+=`<div class="card"><b>${esc(u.name)}</b><div class="k">📸 ${bn(ph.length)} ছবি · 👁 ${bn(ph.reduce((s,p)=>s+(p.views||0),0))} · ⬇ ${bn(ph.reduce((s,p)=>s+(p.dl||0),0))} · 📱 ${esc(num)}</div><div class="row" style="margin-top:6px"><button class="btn o" data-m="on" data-u="${u.id}">অনুমোদন</button><button class="btn r" data-m="none" data-u="${u.id}">বাতিল</button></div></div>`}
+ if(!A.length)h+='<div class="card k">কোনো আবেদন নেই।</div>';h+='<h2>চালু আছে ('+bn(O.length)+')</h2>'+O.map(u=>`<div class="card row"><b class="f">${esc(u.name)}</b><button class="btn r" data-m="none" data-u="${u.id}">বন্ধ করুন</button></div>`).join('');
+ $('#app').innerHTML=h;document.querySelectorAll('[data-m]').forEach(b=>b.onclick=async()=>{try{const u=USERS.find(x=>x.id===b.dataset.u);const up={mon:b.dataset.m};if(b.dataset.m==='on'&&u.dlSnap==null)up.dlSnap=0;await updateDoc(doc(db,'vp_users',b.dataset.u),up);toast('হয়েছে ✓');mon()}catch(e){toast('হয়নি')}})}
+async function dist(){await loadUsers();const O=USERS.filter(u=>u.mon==='on');const ph=await docs(query(collection(db,'vp_photos'),orderBy('ts','desc'),limit(1000)));
+ const dl={};ph.forEach(p=>dl[p.uid]=(dl[p.uid]||0)+(p.dl||0));
+ const rows=O.map(u=>({u,now:dl[u.id]||0,d:Math.max(0,(dl[u.id]||0)-(u.dlSnap||0))}));
+ const earn=(await docs(query(collection(db,'vp_earn'),orderBy('ts','desc'),limit(40))));
+ $('#app').innerHTML=`<div class="card"><b>এই মাসের আয় ভাগ করো</b><p class="k">AdSense/বিজ্ঞাপন থেকে এই মাসে মোট কত পেয়েছ, আর তার কত শতাংশ শিল্পীদের দেবে। ভাগ হবে শেষ বণ্টনের পর থেকে হওয়া ডাউনলোড অনুযায়ী।</p><div class="row"><div class="f"><label class="k">মোট আয় (৳)</label><input id="pool" inputmode="decimal"></div><div class="f"><label class="k">শিল্পীদের অংশ (%)</label><input id="pct" inputmode="numeric" value="40"></div></div><div id="pv"></div><button class="btn" id="go" style="margin-top:8px">হিসাব সেভ করো</button></div>
+ <h2>মনিটাইজড শিল্পী</h2>${rows.length?'':'<div class="card k">কেউ নেই।</div>'}<div id="tb"></div><h2>আগের হিসাব</h2>${earn.map(e=>`<div class="card row"><span class="f">${esc(e.name||'')} · ${esc(e.note||'')}<br><b>${tk(e.amount)}</b></span>${e.paid?'<span style="color:var(--ok)">পাঠানো হয়েছে</span>':`<button class="btn o" data-p="${e.id}">পাঠিয়েছি ✓</button>`}</div>`).join('')||'<div class="card k">এখনো নেই।</div>'}`;
+ const calc=()=>{const pool=parseFloat($('#pool').value)||0,pct=parseFloat($('#pct').value)||0,tot=rows.reduce((s,r)=>s+r.d,0),sh=pool*pct/100;rows.forEach(r=>r.amt=tot?sh*r.d/tot:0);$('#pv').innerHTML=`<p class="k">শিল্পীদের মোট অংশ: <b>${tk(sh)}</b></p>`;$('#tb').innerHTML=rows.map(r=>`<div class="card row"><b class="f">${esc(r.u.name)}</b><span class="k">নতুন ডাউনলোড ${bn(r.d)}</span><b style="color:var(--gold)">${tk(r.amt)}</b></div>`).join('')};
+ $('#pool').oninput=calc;$('#pct').oninput=calc;calc();
+ $('#go').onclick=async()=>{const pool=parseFloat($('#pool').value)||0;if(!pool||!rows.length)return toast('আয় লিখুন');if(!confirm('হিসাব সেভ করবে? এরপর ডাউনলোডের গণনা নতুন করে শুরু হবে।'))return;const note=new Date().toLocaleDateString('bn-BD',{month:'long',year:'numeric'})+' এর আয়';
+  try{for(const r of rows){if(r.amt>=1)await addDoc(collection(db,'vp_earn'),{uid:r.u.id,name:r.u.name,amount:Math.round(r.amt),note,paid:false,ts:Date.now()});await updateDoc(doc(db,'vp_users',r.u.id),{dlSnap:r.now})}toast('সেভ হয়েছে ✓');dist()}catch(e){toast('হয়নি')}};
+ document.querySelectorAll('[data-p]').forEach(b=>b.onclick=async()=>{try{await updateDoc(doc(db,'vp_earn',b.dataset.p),{paid:true});toast('✓');dist()}catch(e){toast('হয়নি')}})}
+async function pho(){const L=await docs(query(collection(db,'vp_photos'),orderBy('ts','desc'),limit(60)));
+ $('#app').innerHTML=`<p class="k">নতুন ৬০টি ছবি। নিয়ম ভাঙলে লুকিয়ে বা মুছে দাও।</p><div class="g2">${L.map(p=>`<div><img src="${esc(p.th)}"><div class="k" style="font-size:12px">${esc(p.name)} · ❤${bn(p.votes||0)}</div><div class="row"><button class="btn g" style="height:30px;padding:0 8px;font-size:12px" data-h="${p.id}">${p.hidden?'দেখাও':'লুকাও'}</button><button class="btn r" style="height:30px;padding:0 8px;font-size:12px" data-x="${p.id}">মুছো</button></div></div>`).join('')}</div>`;
+ document.querySelectorAll('[data-h]').forEach(b=>b.onclick=async()=>{const p=L.find(x=>x.id===b.dataset.h);try{await updateDoc(doc(db,'vp_photos',p.id),{hidden:!p.hidden});pho()}catch(e){toast('হয়নি')}});
+ document.querySelectorAll('[data-x]').forEach(b=>b.onclick=async()=>{if(confirm('মুছবে?'))try{await deleteDoc(doc(db,'vp_photos',b.dataset.x));await deleteDoc(doc(db,'vp_full',b.dataset.x));pho()}catch(e){toast('হয়নি')}})}
+function login(m){$('#root').innerHTML=`<div style="max-width:360px;margin:40px auto"><h1>🛠️ ViewPix অ্যাডমিন</h1><div class="card" style="margin-top:12px"><label class="k">ইমেইল</label><input id="e" type="email"><label class="k">পাসওয়ার্ড</label><input id="p" type="password"><div style="color:var(--red);min-height:20px" id="m">${esc(m||'')}</div><button class="btn" id="g" style="width:100%">লগইন</button></div></div>`;
+ $('#g').onclick=async()=>{try{await signInWithEmailAndPassword(auth,$('#e').value.trim(),$('#p').value)}catch(e){$('#m').textContent='ইমেইল বা পাসওয়ার্ড ভুল'}}}
+onAuthStateChanged(auth,async u=>{if(!u)return login();let ok=false;try{ok=(await getDoc(doc(db,'admins',u.uid))).exists()}catch(e){}
+ if(!ok){await signOut(auth);return login('এই অ্যাকাউন্টে অ্যাডমিনের অনুমতি নেই')}
+ try{const c=await getDoc(doc(db,'vp_config','main'));if(c.exists())CFG={...DEF,...c.data()}}catch(e){}shell();draw()});
+</script></body></html>

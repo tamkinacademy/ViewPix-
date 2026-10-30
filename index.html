@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="bn"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f0f17">
+<title>ViewPix – ছবি দিন, ভোট পান, জিতুন</title>
+<meta name="description" content="ViewPix: বাংলাদেশের ফটো কন্টেস্ট ও গ্যালারি। নিজের তোলা ছবি দিন, ভোট পান, প্রতিদিন নতুন কনটেস্টে জিতুন।">
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0f0f17;--c1:#171723;--c2:#1f1f2e;--ln:#2c2c40;--tx:#f2f1fa;--mut:#9d9bb5;--a:#7c5cff;--b:#ff5c8a;--gold:#ffc94a;--ok:#3dd68c;--red:#ff7a7a}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--tx);font-family:'Hind Siliguri',system-ui,sans-serif;line-height:1.55;padding-bottom:78px}
+a{color:inherit;text-decoration:none}img{display:block;max-width:100%}
+header{position:sticky;top:0;z-index:30;background:rgba(15,15,23,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--ln)}
+.hb{max-width:1000px;margin:auto;padding:10px 14px;display:flex;align-items:center;gap:10px}
+.logo{font:700 24px 'Hind Siliguri';letter-spacing:-.5px;flex:1}.logo b{background:linear-gradient(90deg,var(--a),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent}
+.w{max-width:1000px;margin:auto;padding:14px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:42px;padding:0 18px;border:0;border-radius:99px;font:inherit;font-weight:600;cursor:pointer;color:#fff;background:linear-gradient(90deg,var(--a),var(--b))}
+.btn.g{background:var(--c2);border:1px solid var(--ln);color:var(--tx)}.btn.s{height:34px;font-size:14px;padding:0 14px}.btn.r{background:rgba(255,122,122,.14);color:var(--red);border:1px solid rgba(255,122,122,.35)}.btn[disabled]{opacity:.45;cursor:not-allowed}
+nav{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(15,15,23,.97);border-top:1px solid var(--ln);display:flex;padding:6px 6px calc(6px + env(safe-area-inset-bottom))}
+nav button{flex:1;background:none;border:0;color:var(--mut);font:inherit;font-size:12px;padding:4px 0;cursor:pointer}nav button i{display:block;font-style:normal;font-size:21px}nav button.on{color:#fff}nav button.on i{filter:drop-shadow(0 0 8px var(--a))}
+h2{font-size:21px;margin:6px 0 10px}h3{font-size:17px}.k{color:var(--mut);font-size:14px}
+.hero{border-radius:22px;padding:18px;background:linear-gradient(135deg,#2a1f5c,#5c1f45);border:1px solid #43306e;margin-bottom:16px;position:relative;overflow:hidden}
+.hero .pz{display:inline-block;background:rgba(255,201,74,.16);color:var(--gold);border:1px solid rgba(255,201,74,.4);border-radius:99px;padding:2px 14px;font-weight:700;margin-bottom:8px}
+.hero .cd{font-size:30px;font-weight:700;letter-spacing:1px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}@media(min-width:700px){.grid{grid-template-columns:repeat(3,1fr)}}@media(min-width:960px){.grid{grid-template-columns:repeat(4,1fr)}}
+.card{background:var(--c1);border:1px solid var(--ln);border-radius:16px;overflow:hidden}
+.ph img{width:100%;aspect-ratio:4/5;object-fit:cover;cursor:zoom-in;background:var(--c2)}
+.pi{padding:8px 10px 10px}.pi .t{font-weight:600;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pi .n{font-size:13px;color:var(--mut);display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.bd{display:inline-block;font-size:11px;font-weight:700;padding:0 7px;border-radius:99px;color:#fff;background:#2f7bff}.bd.f{background:linear-gradient(90deg,#ff7a2f,#ff3d6e)}
+.act{display:flex;gap:6px;margin-top:7px}.act .btn{flex:1;height:34px;font-size:13px;padding:0 6px}
+.vote.on{background:rgba(255,92,138,.2);color:var(--b);border:1px solid var(--b)}
+.rank{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.7);border-radius:99px;padding:1px 10px;font-weight:700;font-size:14px}
+.box{background:var(--c1);border:1px solid var(--ln);border-radius:16px;padding:14px;margin-bottom:12px}
+input,select,textarea{width:100%;background:var(--c2);border:1px solid var(--ln);border-radius:12px;padding:11px 12px;color:var(--tx);font:inherit;margin:4px 0 8px;outline:none}input:focus,textarea:focus{border-color:var(--a)}
+label.k{display:block}.err{color:var(--red);min-height:20px;font-size:14px}.note{background:rgba(124,92,255,.12);border:1px solid rgba(124,92,255,.4);border-radius:12px;padding:10px 12px;font-size:14px;margin-bottom:12px}
+.row{display:flex;gap:8px;align-items:center}.row>*{flex:1}.pg{height:8px;border-radius:9px;background:var(--c2);overflow:hidden;margin:4px 0 10px}.pg i{display:block;height:100%;background:linear-gradient(90deg,var(--a),var(--b))}
+.lb{position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:60;display:none;flex-direction:column;align-items:center;justify-content:center;padding:14px}.lb.on{display:flex}.lb img{max-width:96vw;max-height:72vh;border-radius:10px}
+.lb .x{position:absolute;top:12px;right:12px;width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;font-size:20px;cursor:pointer}.lb .meta{margin-top:12px;text-align:center}
+#toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#000;border:1px solid var(--ln);padding:9px 16px;border-radius:12px;display:none;z-index:80;max-width:90vw;text-align:center}
+footer{max-width:1000px;margin:20px auto 0;padding:0 14px;color:var(--mut);font-size:13px;text-align:center}
+.tabs2{display:flex;gap:8px;margin-bottom:12px}.tabs2 button{flex:1;border:1px solid var(--ln);background:var(--c1);color:var(--mut);border-radius:99px;padding:8px;font:inherit;cursor:pointer}.tabs2 button.on{background:var(--a);border-color:var(--a);color:#fff}
+</style></head><body>
+<header><div class="hb"><a class="logo" href="#home">View<b>Pix</b></a><button class="btn s g" id="hu">লগইন</button></div></header>
+<main class="w" id="app"></main>
+<footer>© ViewPix · শুধু নিজের তোলা ছবি দিন · <a href="#rules" style="text-decoration:underline">নিয়মাবলি</a></footer>
+<nav id="nv"><button data-r="home"><i>🏠</i>হোম</button><button data-r="contest"><i>🔥</i>কনটেস্ট</button><button data-r="board"><i>🏆</i>লিডারবোর্ড</button><button data-r="me"><i>👤</i>প্রোফাইল</button></nav>
+<div class="lb" id="lb"><button class="x" id="lx">✕</button><img id="li" alt=""><div class="meta" id="lm"></div></div>
+<div id="toast"></div>
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import{getAuth,onAuthStateChanged,signInWithEmailAndPassword,createUserWithEmailAndPassword,signOut}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import{getFirestore,doc,getDoc,setDoc,updateDoc,deleteDoc,collection,query,where,orderBy,limit,getDocs,writeBatch,increment}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+const app=initializeApp({apiKey:"AIzaSyD1uWle_USBMBO_rJuT64TMCmmzyO1rdH8",authDomain:"techcraft-gigs.firebaseapp.com",projectId:"techcraft-gigs",storageBucket:"techcraft-gigs.firebasestorage.app",messagingSenderId:"402779044950",appId:"1:402779044950:web:f728c347d9d23d18b48ff7"}),auth=getAuth(app),db=getFirestore(app);
+const $=s=>document.querySelector(s),esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const bn=n=>String(n).replace(/\d/g,d=>'০১২৩৪৫৬৭৮৯'[d]),tk=n=>'৳'+bn(Math.round(n).toLocaleString('en-US'));
+let tT;const toast=m=>{const t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(tT);tT=setTimeout(()=>t.style.display='none',2600)};
+const DEF={prize:'৳৫০',prizeW:'৳২০০',prizeM:'৳৫০০',theme:'',prizeNote:'বিজয়ী বিকাশে পাবেন',blogUrl:'',wa:'8801942319608',blue:120,fire:150,minPhotos:10,minViews:1000,minDl:0};
+let CFG={...DEF},me=null,prof=null,route='home',page=1,lim=30,bmap={},myVotes=new Set(),sub='my';
+const SH=()=>Date.now()+6*36e5,dayN=()=>Math.floor(SH()/864e5);
+const PER={d:{n:'২৪ ঘণ্টার',e:'🔥',id:()=>'d'+new Date(SH()).toISOString().slice(0,10),end:()=>(dayN()+1)*864e5-SH(),pz:()=>CFG.prize},
+ w:{n:'৭ দিনের',e:'👑',id:()=>'w'+Math.floor((dayN()-2)/7),end:()=>((Math.floor((dayN()-2)/7)+1)*7+2)*864e5-SH(),pz:()=>CFG.prizeW},
+ m:{n:'৩০ দিনের',e:'💎',id:()=>'m'+new Date(SH()).toISOString().slice(0,7),end:()=>{const d=new Date(SH());return Date.UTC(d.getUTCFullYear(),d.getUTCMonth()+1,1)-SH()},pz:()=>CFG.prizeM}};
+const cidNow=()=>PER.d.id(),msToMid=()=>PER.d.end();let cp='d',sq='';
+const hms=ms=>{const s=Math.max(0,Math.floor(ms/1000)),dd=Math.floor(s/86400);return (dd?bn(dd)+' দিন ':'')+[Math.floor(s%86400/3600),Math.floor(s%3600/60),s%60].map(x=>bn(String(x).padStart(2,'0'))).join(':')};
+function shrink(file,max,q){return new Promise((ok,no)=>{const im=new Image(),u=URL.createObjectURL(file);im.onload=()=>{const r=Math.min(1,max/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*r);c.height=Math.round(im.height*r);c.getContext('2d').drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);ok(c.toDataURL('image/jpeg',q))};im.onerror=()=>no();im.src=u})}
+const docs=async q=>(await getDocs(q)).docs.map(d=>({id:d.id,...d.data()}));
+async function loadCommon(){
+ try{const c=await getDoc(doc(db,'vp_config','main'));if(c.exists())CFG={...DEF,...c.data()}}catch(e){}
+ try{const u=await docs(query(collection(db,'vp_users'),where('badgeUntil','>',Date.now())));bmap={};u.forEach(x=>bmap[x.id]=x.badge)}catch(e){}
+}
+async function loadMyVotes(){myVotes=new Set();if(!me)return;try{(await docs(query(collection(db,'vp_votes'),where('uid','==',me.uid)))).forEach(v=>myVotes.add(v.pid))}catch(e){}}
+const badge=uid=>bmap[uid]?`<span class="bd ${bmap[uid]==='fire'?'f':''}">${bmap[uid]==='fire'?'🔥 Fire':'✓ Blue'}</span>`:'';
+const dlUrl=id=>CFG.blogUrl?CFG.blogUrl+(CFG.blogUrl.includes('?')?'&':'?')+'p='+id:'';
+function card(p,o={}){
+ const v=o.vote&&p.kind==='c';
+ return `<div class="card ph" style="position:relative">${o.rank?`<span class="rank">#${bn(o.rank)}</span>`:''}<img loading="lazy" src="${esc(p.th)}" alt="${esc(p.title||'ছবি')}" data-o="${p.id}"><div class="pi"><div class="t">${esc(p.title||'শিরোনামহীন')}</div><div class="n"><span>${esc(p.name)}</span>${badge(p.uid)}</div><div class="n">❤ ${bn(p.votes||0)} · 👁 ${bn(p.views||0)} · ⬇ ${bn(p.dl||0)}</div><div class="act">${v?`<button class="btn s vote ${myVotes.has(p.id)?'on':''}" data-v="${p.id}">${myVotes.has(p.id)?'❤ ভোট দিয়েছেন':'🤍 ভোট দিন'}</button>`:''}${dlUrl(p.id)?`<a class="btn s g" target="_blank" rel="noopener" href="${esc(dlUrl(p.id))}">⬇ ডাউনলোড</a>`:''}${o.del?`<button class="btn s r" data-del="${p.id}">মুছুন</button>`:''}</div></div></div>`}
+let LIST={};
+function bind(){
+ document.querySelectorAll('[data-o]').forEach(i=>i.onclick=()=>openLb(i.dataset.o));
+ document.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>vote(b.dataset.v));
+ document.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>delPhoto(b.dataset.del));
+}
+const reg=a=>a.forEach(p=>LIST[p.id]=p);
+const visible=a=>a.filter(p=>!p.hidden);
+async function vote(id){
+ if(!me){toast('ভোট দিতে আগে লগইন করুন');location.hash='#me';return}
+ const p=LIST[id];if(!p)return;if(p.uid===me.uid)return toast('নিজের ছবিতে ভোট দেওয়া যায় না');if(myVotes.has(id))return toast('আপনি আগেই ভোট দিয়েছেন');
+ try{const b=writeBatch(db);b.set(doc(db,'vp_votes',id+'_'+me.uid),{pid:id,uid:me.uid,ts:Date.now()});b.update(doc(db,'vp_photos',id),{votes:increment(1)});await b.commit();myVotes.add(id);p.votes=(p.votes||0)+1;toast('ভোট দেওয়া হয়েছে ❤');draw()}catch(e){console.error(e);toast('ভোট দেওয়া যায়নি')}}
+async function delPhoto(id){if(!confirm('ছবিটি মুছবেন?'))return;try{await deleteDoc(doc(db,'vp_photos',id));await deleteDoc(doc(db,'vp_full',id));toast('মুছে গেছে');draw()}catch(e){toast('মোছা যায়নি')}}
+const seen=new Set();
+async function openLb(id){
+ const p=LIST[id];if(!p)return;$('#lb').classList.add('on');document.body.style.overflow='hidden';$('#li').src=p.th;
+ $('#lm').innerHTML=`<b>${esc(p.title||'')}</b><div class="k">${esc(p.name)} ${badge(p.uid)} · ❤ ${bn(p.votes||0)}</div>${dlUrl(id)?`<a class="btn s" style="margin-top:8px" target="_blank" rel="noopener" href="${esc(dlUrl(id))}">⬇ ফ্রি ডাউনলোড</a> `:''}<button class="btn s g" id="sh" style="margin-top:8px">🔗 শেয়ার</button>`;
+ $('#sh').onclick=async()=>{const u=location.origin+location.pathname+'#p='+id;try{if(navigator.share)await navigator.share({title:'ViewPix',url:u});else{await navigator.clipboard.writeText(u);toast('লিংক কপি হয়েছে')}}catch(e){}};
+ if(!seen.has(id)){seen.add(id);updateDoc(doc(db,'vp_photos',id),{views:increment(1)}).then(()=>{p.views=(p.views||0)+1}).catch(()=>{})}
+ try{const f=await getDoc(doc(db,'vp_full',id));if(f.exists()&&$('#lb').classList.contains('on'))$('#li').src=f.data().img}catch(e){}}
+const closeLb=()=>{$('#lb').classList.remove('on');document.body.style.overflow='';if(location.hash.startsWith('#p='))history.replaceState(null,'','#home')};
+$('#lx').onclick=closeLb;$('#lb').onclick=e=>{if(e.target.id==='lb')closeLb()};
+/* ---------- pages ---------- */
+const app_=$('#app');
+async function home(){
+ const all=visible(await docs(query(collection(db,'vp_photos'),orderBy('ts','desc'),limit(lim)))).map(p=>({...p,_k:p.ts+(bmap[p.uid]&&Date.now()-p.ts<(bmap[p.uid]==='fire'?5:3)*36e5?1e13:0)})).sort((a,b)=>b._k-a._k);reg(all);
+ const today=visible(await docs(query(collection(db,'vp_photos'),where('cid','==',cidNow())))).sort((a,b)=>(b.votes||0)-(a.votes||0));reg(today);
+ const top=today[0]||all[0];
+ app_.innerHTML=`<div class="hero"><span class="pz">🏆 প্রাইজ ${esc(CFG.prize)} · ${esc(CFG.prizeW)} · ${esc(CFG.prizeM)}</span><h2 style="margin:0 0 4px">ছবি দিন, ভোট পান, জিতুন</h2><p class="k" style="color:#d6cffa">নিজের তোলা ছবি দিন। ২৪ ঘণ্টা, ৭ দিন ও ৩০ দিনের কনটেস্টে সবচেয়ে বেশি ভোট পাওয়া ছবির শিল্পী জিতবেন।</p><div class="row" style="margin-top:12px"><a class="btn" href="#contest">🔥 কনটেস্টে অংশ নিন</a><a class="btn g" href="#board">🏆 লিডারবোর্ড</a></div></div>
+ ${top?`<h2>⭐ ${today[0]?'আজকের সেরা ছবি':'নতুন ছবি'}</h2><div class="grid" style="grid-template-columns:minmax(0,320px)">${card(top,{vote:1})}</div>`:''}
+ <h2 style="margin-top:20px">নতুন ছবি</h2><input id="sq" placeholder="🔍 ছবির নাম বা শিল্পীর নাম খুঁজুন" value="${esc(sq)}">${all.length?`<div class="grid">${all.map(p=>card(p,{vote:1})).join('')}</div>${all.length>=lim?`<div style="text-align:center;margin:16px"><button class="btn g" id="more">আরও দেখুন</button></div>`:''}`:'<div class="box k">এখনো কোনো ছবি নেই। প্রথম ছবিটি আপনিই দিন!</div>'}`;
+ const m=$('#more');if(m)m.onclick=()=>{lim+=30;draw()};const q=$('#sq');q.oninput=()=>{sq=q.value.trim().toLowerCase();document.querySelectorAll('#app .grid:last-of-type .card').forEach(c=>{c.style.display=!sq||c.textContent.toLowerCase().includes(sq)?'':'none'})};if(sq)q.oninput();bind()}
+let cdT;
+async function contest(){
+ const P=PER[cp],cid=P.id(),L=visible(await docs(query(collection(db,'vp_photos'),where('cid','==',cid)))).sort((a,b)=>(b.votes||0)-(a.votes||0));reg(L);
+ const mine=me&&L.find(p=>p.uid===me.uid);
+ app_.innerHTML=`<div class="tabs2">${Object.keys(PER).map(k=>`<button data-cp="${k}" class="${cp===k?'on':''}">${PER[k].e} ${PER[k].n}</button>`).join('')}</div><div class="hero"><span class="pz">🏆 প্রাইজ ${esc(P.pz()||'')}</span><h2 style="margin:0">${P.n} কনটেস্ট</h2>${CFG.theme?`<div class="k" style="color:#ffc94a">🎯 থিম: ${esc(CFG.theme)}</div>`:''}<div class="k" style="color:#d6cffa">শেষ হতে বাকি</div><div class="cd" id="cd">${hms(P.end())}</div><p class="k" style="margin-top:6px;color:#d6cffa">${esc(CFG.prizeNote||'')}। সময় শেষে নতুন কনটেস্ট নিজে থেকে শুরু হয়।</p></div>
+ <div class="box"><b>অংশ নিতে চান?</b><p class="k">প্রতি কনটেস্টে একটি ছবি দেওয়া যায়। শুধু নিজের তোলা ছবি, AI দিয়ে বানানো বা অন্যের ছবি নয়।</p>${mine?'<div class="note" style="margin:8px 0 0">✅ এই কনটেস্টে আপনি ছবি দিয়ে দিয়েছেন। শুভকামনা!</div>':`<button class="btn" id="up" style="margin-top:6px">📸 ছবি জমা দিন</button>`}</div>
+ <h2>এখনকার র‍্যাংকিং (${bn(L.length)}টি ছবি)</h2>${L.length?`<div class="grid">${L.map((p,i)=>card(p,{vote:1,rank:i+1})).join('')}</div>`:'<div class="box k">এখনো কেউ ছবি দেয়নি। প্রথম হন!</div>'}`;
+ document.querySelectorAll('[data-cp]').forEach(b=>b.onclick=()=>{cp=b.dataset.cp;draw()});
+ clearInterval(cdT);cdT=setInterval(()=>{const e=$('#cd');if(!e)return clearInterval(cdT);e.textContent=hms(P.end())},1000);
+ const u=$('#up');if(u)u.onclick=()=>uploadForm('c');bind()}
+async function board(){
+ const cid=cidNow(),T=visible(await docs(query(collection(db,'vp_photos'),where('cid','==',cid)))).sort((a,b)=>(b.votes||0)-(a.votes||0)).slice(0,10);reg(T);
+ const H=visible(await docs(query(collection(db,'vp_photos'),orderBy('votes','desc'),limit(20)))).filter(p=>p.kind==='c'&&p.votes>0);reg(H);
+ app_.innerHTML=`<h2>🏆 আজকের সেরা ১০</h2>${T.length?`<div class="grid">${T.map((p,i)=>card(p,{vote:1,rank:i+1})).join('')}</div>`:'<div class="box k">আজ এখনো কোনো ছবি নেই।</div>'}<h2 style="margin-top:22px">👑 হল অফ ফেম</h2><p class="k">সবচেয়ে বেশি ভোট পাওয়া ছবি</p>${H.length?`<div class="grid">${H.map((p,i)=>card(p,{rank:i+1})).join('')}</div>`:'<div class="box k">এখনো কিছু নেই।</div>'}`;bind()}
+function uploadForm(kind){
+ if(!me){toast('আগে লগইন করুন');location.hash='#me';return}
+ const d=document.createElement('div');d.className='lb on';d.style.overflow='auto';d.innerHTML=`<div class="box" style="width:min(440px,100%)"><h3>${kind==='c'?PER[cp].e+' '+PER[cp].n+' কনটেস্টে ছবি জমা':'📸 গ্যালারিতে ছবি'}</h3><label class="k">ছবি বেছে নিন</label><input type="file" id="uf" accept="image/*"><label class="k">শিরোনাম</label><input id="ut" maxlength="60" placeholder="যেমন: শীতের সকাল"><label class="k" style="display:flex;gap:8px;align-items:flex-start"><input type="checkbox" id="uc" style="width:auto;margin:4px 0 0">ছবিটি আমার নিজের তোলা, AI দিয়ে বানানো বা অন্যের ছবি নয়। নিয়ম না মানলে ছবি মুছে দেওয়া হবে।</label><div class="err" id="ue"></div><div class="row"><button class="btn" id="ug">জমা দিন</button><button class="btn g" id="uq">বাতিল</button></div></div>`;document.body.appendChild(d);
+ $('#uq').onclick=()=>d.remove();
+ $('#ug').onclick=async()=>{const f=$('#uf').files[0];if(!f)return $('#ue').textContent='ছবি বেছে নিন';if(!$('#uc').checked)return $('#ue').textContent='নিয়মের ঘরে টিক দিন';
+  $('#ug').disabled=true;$('#ue').textContent='আপলোড হচ্ছে… একটু অপেক্ষা করুন';
+  try{const cid=kind==='c'?PER[cp].id():'',id=kind==='c'?me.uid+'_'+cid:'g'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+   const th=await shrink(f,600,.72);let q=.8,full=await shrink(f,1600,q);while(full.length>850000&&q>.4){q-=.1;full=await shrink(f,1600,q)}
+   await setDoc(doc(db,'vp_full',id),{uid:me.uid,img:full});
+   await setDoc(doc(db,'vp_photos',id),{uid:me.uid,name:prof.name,kind,cid,title:$('#ut').value.trim(),th,votes:0,views:0,dl:0,ts:Date.now(),hidden:false});
+   d.remove();toast('ছবি জমা হয়েছে ✓');draw()}catch(e){console.error(e);$('#ug').disabled=false;$('#ue').textContent=kind==='c'?'জমা হয়নি। আজকের ছবি হয়তো আগেই দিয়েছেন।':'জমা হয়নি, আবার চেষ্টা করুন'}}}
+function authForm(msg){
+ app_.innerHTML=`<div style="max-width:400px;margin:20px auto"><h2>লগইন / নতুন অ্যাকাউন্ট</h2><p class="k">ছবি দিতে ও ভোট দিতে অ্যাকাউন্ট লাগে। ছবি দেখা ও ডাউনলোড করতে লাগে না।</p><div class="box" style="margin-top:12px"><div class="tabs2"><button id="m1" class="on">লগইন</button><button id="m2">নতুন অ্যাকাউন্ট</button></div><div id="nm" style="display:none"><label class="k">আপনার নাম</label><input id="an" maxlength="30" autocomplete="name"><label class="k">এলাকা (ঐচ্ছিক)</label><input id="al" maxlength="30"></div><label class="k">ইমেইল</label><input id="ae" type="email" autocomplete="email"><label class="k">পাসওয়ার্ড (কমপক্ষে ৬ অক্ষর)</label><input id="ap" type="password" autocomplete="current-password"><div class="err" id="am">${esc(msg||'')}</div><button class="btn" style="width:100%" id="ag">লগইন</button></div></div>`;
+ let up=false;const set=u=>{up=u;$('#nm').style.display=u?'block':'none';$('#m1').classList.toggle('on',!u);$('#m2').classList.toggle('on',u);$('#ag').textContent=u?'অ্যাকাউন্ট খুলুন':'লগইন'};$('#m1').onclick=()=>set(false);$('#m2').onclick=()=>set(true);
+ $('#ag').onclick=async()=>{const e=$('#ae').value.trim(),p=$('#ap').value;if(!e||p.length<6)return $('#am').textContent='ইমেইল আর ৬+ অক্ষরের পাসওয়ার্ড দিন';
+  const n=up?$('#an').value.trim():'';if(up&&!n)return $('#am').textContent='নাম দিন';$('#am').textContent='অপেক্ষা করুন…';
+  const lc=up?$('#al').value.trim():'';try{if(up){regP=(async()=>{const c=await createUserWithEmailAndPassword(auth,e,p);await setDoc(doc(db,'vp_users',c.user.uid),{name:n,loc:lc,badge:'',badgeUntil:0,mon:'none',ts:Date.now()})})();await regP}else await signInWithEmailAndPassword(auth,e,p)}
+  catch(x){$('#am').textContent=({'auth/email-already-in-use':'এই ইমেইলে অ্যাকাউন্ট আছে, লগইন করুন','auth/invalid-credential':'ইমেইল বা পাসওয়ার্ড ভুল','auth/weak-password':'পাসওয়ার্ড আরও বড় দিন','auth/invalid-email':'ইমেইল ঠিক নয়'})[x.code]||'সমস্যা হয়েছে, আবার চেষ্টা করুন'}}}
+async function meTab(){
+ if(!me)return authForm();
+ const mp=await docs(query(collection(db,'vp_photos'),where('uid','==',me.uid)));reg(mp);mp.sort((a,b)=>b.ts-a.ts);
+ const pc=mp.filter(p=>!p.hidden).length,vw=mp.reduce((s,p)=>s+(p.views||0),0),dl=mp.reduce((s,p)=>s+(p.dl||0),0),bd=prof.badgeUntil>Date.now()?prof.badge:'';
+ const need=[['ছবি',pc,CFG.minPhotos],['মোট ভিউ',vw,CFG.minViews]];if(CFG.minDl)need.push(['মোট ডাউনলোড',dl,CFG.minDl]);const okAll=need.every(x=>x[1]>=x[2]);
+ let pay='';try{const s=await getDoc(doc(db,'vp_pay',me.uid));if(s.exists())pay=s.data().num||''}catch(e){}
+ let earn=[];if(prof.mon==='on'){try{earn=(await docs(query(collection(db,'vp_earn'),where('uid','==',me.uid)))).sort((a,b)=>b.ts-a.ts)}catch(e){}}
+ const wa=t=>'https://wa.me/'+CFG.wa+'?text='+encodeURIComponent(t);
+ app_.innerHTML=`<div class="box"><div class="row"><div><h2 style="margin:0">${esc(prof.name)} ${bd?badge(me.uid):''}</h2><div class="k">${esc(me.email)}${prof.loc?' · 📍'+esc(prof.loc):''}</div></div><button class="btn s g" style="flex:none" id="lo">বের হন</button></div><div class="k" style="margin-top:8px">📸 ${bn(pc)}টি ছবি · 👁 ${bn(vw)} ভিউ · ⬇ ${bn(dl)} ডাউনলোড</div><div class="row" style="margin-top:10px"><button class="btn" id="u1">🔥 কনটেস্টে ছবি</button><button class="btn g" id="u2">📸 গ্যালারিতে ছবি</button></div></div>
+ <div class="box"><h3>💰 মনিটাইজেশন</h3>${prof.mon==='on'?`<div class="note" style="margin-top:8px">✅ আপনার মনিটাইজেশন চালু। আপনার ছবির ডাউনলোড থেকে সাইটের আয়ের একটি অংশ প্রতি মাসে আপনার বিকাশ/নগদে পাঠানো হয়।</div>${earn.length?earn.map(e=>`<div class="row k" style="padding:6px 0;border-top:1px solid var(--ln)"><span>${esc(e.note||'মাসিক আয়')}</span><b style="text-align:right;color:${e.paid?'var(--ok)':'var(--gold)'}">${tk(e.amount)} ${e.paid?'(পাঠানো হয়েছে)':'(অপেক্ষায়)'}</b></div>`).join(''):'<p class="k">এখনো কোনো আয় যোগ হয়নি।</p>'}`:prof.mon==='applied'?'<div class="note" style="margin-top:8px">⏳ আপনার আবেদন অ্যাডমিন দেখছেন। অনুমোদন হলে এখানে জানা যাবে।</div>':`<p class="k">নিচের শর্ত পূরণ হলে আবেদন করতে পারবেন।</p>${need.map(x=>`<div class="k">${x[0]}: ${bn(Math.min(x[1],x[2]))}/${bn(x[2])}</div><div class="pg"><i style="width:${Math.min(100,x[1]/x[2]*100)}%"></i></div>`).join('')}<label class="k">বিকাশ/নগদ নম্বর (টাকা পাঠানোর জন্য)</label><input id="pn" inputmode="tel" maxlength="14" value="${esc(pay)}" placeholder="01XXXXXXXXX"><div class="err" id="pe"></div><button class="btn" id="pa" ${okAll?'':'disabled'}>মনিটাইজেশনের আবেদন করুন</button>`}<p class="k" style="margin-top:8px">আয়ের পরিমাণ নির্ভর করে সাইটের সত্যিকারের বিজ্ঞাপন-আয়ের ওপর। কোনো নির্দিষ্ট অঙ্কের প্রতিশ্রুতি নেই।</p></div>
+ <div class="box"><h3>✓ ভেরিফাইড ব্যাজ</h3><p class="k">${bd?`আপনার ${bd==='fire'?'Fire':'Blue'} ব্যাজ চালু, মেয়াদ ${new Date(prof.badgeUntil).toLocaleDateString('bn-BD')} পর্যন্ত।`:'ব্যাজ নিলে নামের পাশে ব্যাজ দেখা যায় এবং আপনার নতুন ছবি হোমে কিছুক্ষণ ওপরে থাকে। এতে বাড়তি আয় বা ভোট নেই।'}</p><div class="row" style="margin-top:8px"><a class="btn s" style="background:#2f7bff" target="_blank" href="${wa('ViewPix Blue Verified নিতে চাই (মাসে '+tk(CFG.blue)+'). ইমেইল: '+me.email)}">✓ Blue ${tk(CFG.blue)}/মাস</a><a class="btn s" style="background:linear-gradient(90deg,#ff7a2f,#ff3d6e)" target="_blank" href="${wa('ViewPix Fire Verified নিতে চাই (মাসে '+tk(CFG.fire)+'). ইমেইল: '+me.email)}">🔥 Fire ${tk(CFG.fire)}/মাস</a></div><p class="k" style="margin-top:6px">WhatsApp এ মেসেজ করে বিকাশ/নগদে পেমেন্ট করলে অ্যাডমিন ব্যাজ চালু করে দেবেন।</p></div>
+ <h2>আমার ছবি</h2>${mp.length?`<div class="grid">${mp.map(p=>card(p,{del:1})).join('')}</div>`:'<div class="box k">এখনো কোনো ছবি দেননি।</div>'}`;
+ $('#lo').onclick=()=>signOut(auth);$('#u1').onclick=()=>uploadForm('c');$('#u2').onclick=()=>uploadForm('g');
+ const pa=$('#pa');if(pa)pa.onclick=async()=>{const n=$('#pn').value.replace(/\D/g,'');if(n.length<11)return $('#pe').textContent='সঠিক বিকাশ/নগদ নম্বর দিন';try{await setDoc(doc(db,'vp_pay',me.uid),{num:n});await updateDoc(doc(db,'vp_users',me.uid),{mon:'applied'});prof.mon='applied';toast('আবেদন জমা হয়েছে ✓');draw()}catch(e){console.error(e);$('#pe').textContent='আবেদন যায়নি, আবার চেষ্টা করুন'}};
+ bind()}
+function rules(){app_.innerHTML=`<h2>নিয়মাবলি</h2><div class="box"><p>✅ শুধু নিজের মোবাইল বা ক্যামেরায় তোলা ছবি দিতে পারবেন।</p><p>🚫 AI দিয়ে বানানো, অন্যের বা কপি করা ছবি নিষিদ্ধ।</p><p>🚫 অশ্লীল, ধর্মবিরোধী বা কারও ক্ষতি করে এমন ছবি নিষিদ্ধ।</p><p>🗳 একটি ছবিতে একজন একবারই ভোট দিতে পারবেন। নিজের ছবিতে ভোট দেওয়া যায় না।</p><p>🏆 প্রতিদিন রাত ১২টায় কনটেস্ট শেষ হয়। সবচেয়ে বেশি ভোট পাওয়া ছবির শিল্পী প্রাইজ পান।</p><p>⚠ ভোট কেনাবেচা বা নকল অ্যাকাউন্ট ধরা পড়লে ছবি ও প্রাইজ বাতিল।</p><p>💰 মনিটাইজেশনের আয় সাইটের সত্যিকারের বিজ্ঞাপন-আয় থেকে ভাগ হয়, কোনো নির্দিষ্ট অঙ্কের নিশ্চয়তা নেই।</p><p>⬇ ফ্রি ডাউনলোডের আগে একটি সহজ ভেরিফিকেশন ও কাউন্টডাউন থাকে। বিজ্ঞাপনে ক্লিক করা বাধ্যতামূলক নয়।</p></div>`}
+const R={home,contest,board,me:meTab,rules};
+let busy=0;
+async function draw(){const r=route in R?route:'home';document.querySelectorAll('#nv button').forEach(b=>b.classList.toggle('on',b.dataset.r===r));
+ const my=++busy;try{await R[r]()}catch(e){console.error(e);if(my===busy)app_.innerHTML='<div class="box k">লোড করা যায়নি। ইন্টারনেট দেখে পেজ রিফ্রেশ করুন।</div>'}
+ $('#hu').textContent=me?'👤 '+(prof?prof.name:''):'লগইন'}
+function go(){const h=location.hash.slice(1);if(h.startsWith('p=')){route='home';draw().then(async()=>{const id=h.slice(2);if(!LIST[id]){try{const s=await getDoc(doc(db,'vp_photos',id));if(s.exists())LIST[id]={id,...s.data()}}catch(e){}}openLb(id)});return}route=h||'home';draw();window.scrollTo(0,0)}
+window.addEventListener('hashchange',go);
+document.querySelectorAll('#nv button').forEach(b=>b.onclick=()=>{if(location.hash==='#'+b.dataset.r)go();else location.hash='#'+b.dataset.r});
+$('#hu').onclick=()=>{location.hash='#me'};
+let first=true,regP=null;
+onAuthStateChanged(auth,async u=>{if(regP){try{await regP}catch(e){}regP=null}me=u;prof=null;if(u){try{const s=await getDoc(doc(db,'vp_users',u.uid));if(s.exists())prof=s.data();else{prof={name:(u.email||'').split('@')[0],loc:'',badge:'',badgeUntil:0,mon:'none',ts:Date.now()};await setDoc(doc(db,'vp_users',u.uid),prof)}}catch(e){prof={name:'',badgeUntil:0,mon:'none'}}}
+ await loadCommon();await loadMyVotes();if(first){first=false;go()}else draw()});
+
+</script></body></html>
