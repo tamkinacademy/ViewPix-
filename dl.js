@@ -6,7 +6,7 @@ document.head.appendChild(css);
 function bn(n){return String(n).replace(/[0-9]/g,function(d){return "০১২৩৪৫৬৭৮৯"[d]})}
 function en(s){return String(s).replace(/[০-৯]/g,function(d){return "০১২৩৪৫৬৭৮৯".indexOf(d)})}
 function esc(s){var d=document.createElement("div");d.textContent=s==null?"":s;return d.innerHTML}
-var m=(location.hash+"&"+location.search).match(/[#?&](?:id|pid|p)=([A-Za-z0-9_\-]+)/);var id=m?m[1]:"";
+var m=String(window.name||"").match(/^vp_([A-Za-z0-9_\-]+)$/)||(location.hash+"&"+location.search).match(/[#?&](?:id|pid|p)=([A-Za-z0-9_\-]+)/);var id=m?m[1]:"";
 function say(h){box.innerHTML='<div class="vpd">'+h+"</div>"}
 if(!id){say("<b>ViewPix</b><p class='k'>ডাউনলোডের জন্য ViewPix সাইট থেকে কোনো ছবির \"ডাউনলোড\" বাটনে চাপুন।</p>");return}
 say("<p class='k'>লোড হচ্ছে…</p>");

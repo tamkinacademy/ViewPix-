@@ -70,10 +70,10 @@ async function loadCommon(){
 }
 async function loadMyVotes(){myVotes=new Set();if(!me)return;try{(await docs(query(collection(db,'vp_votes'),where('uid','==',me.uid)))).forEach(v=>myVotes.add(v.pid))}catch(e){}}
 const badge=uid=>bmap[uid]?`<span class="bd ${bmap[uid]==='fire'?'f':''}">${bmap[uid]==='fire'?'🔥 Fire':'✓ Blue'}</span>`:'';
-const dlUrl=id=>CFG.blogUrl?CFG.blogUrl.split('#')[0].split('?')[0]+'#id='+id:'';
+const dlUrl=id=>CFG.blogUrl?CFG.blogUrl.split('#')[0].split('?')[0]:'';
 function card(p,o={}){
  const v=o.vote&&p.kind==='c';
- return `<div class="card ph" style="position:relative">${o.rank?`<span class="rank">#${bn(o.rank)}</span>`:''}<img loading="lazy" src="${esc(p.th)}" alt="${esc(p.title||'ছবি')}" data-o="${p.id}"><div class="pi"><div class="t">${esc(p.title||'শিরোনামহীন')}</div><div class="n"><span>${esc(p.name)}</span>${badge(p.uid)}</div><div class="n">❤ ${bn(p.votes||0)} · 👁 ${bn(p.views||0)} · ⬇ ${bn(p.dl||0)}</div><div class="act">${v?`<button class="btn s vote ${myVotes.has(p.id)?'on':''}" data-v="${p.id}">${myVotes.has(p.id)?'❤ ভোট দিয়েছেন':'🤍 ভোট দিন'}</button>`:''}${dlUrl(p.id)?`<a class="btn s g" target="_blank" rel="noopener" href="${esc(dlUrl(p.id))}">⬇ ডাউনলোড</a>`:''}${o.del?`<button class="btn s r" data-del="${p.id}">মুছুন</button>`:''}</div></div></div>`}
+ return `<div class="card ph" style="position:relative">${o.rank?`<span class="rank">#${bn(o.rank)}</span>`:''}<img loading="lazy" src="${esc(p.th)}" alt="${esc(p.title||'ছবি')}" data-o="${p.id}"><div class="pi"><div class="t">${esc(p.title||'শিরোনামহীন')}</div><div class="n"><span>${esc(p.name)}</span>${badge(p.uid)}</div><div class="n">❤ ${bn(p.votes||0)} · 👁 ${bn(p.views||0)} · ⬇ ${bn(p.dl||0)}</div><div class="act">${v?`<button class="btn s vote ${myVotes.has(p.id)?'on':''}" data-v="${p.id}">${myVotes.has(p.id)?'❤ ভোট দিয়েছেন':'🤍 ভোট দিন'}</button>`:''}${dlUrl(p.id)?`<a class="btn s g" target="vp_${p.id}" href="${esc(dlUrl(p.id))}">⬇ ডাউনলোড</a>`:''}${o.del?`<button class="btn s r" data-del="${p.id}">মুছুন</button>`:''}</div></div></div>`}
 let LIST={};
 function bind(){
  document.querySelectorAll('[data-o]').forEach(i=>i.onclick=()=>openLb(i.dataset.o));
@@ -90,7 +90,7 @@ async function delPhoto(id){if(!confirm('ছবিটি মুছবেন?'))r
 const seen=new Set();
 async function openLb(id){
  const p=LIST[id];if(!p)return;$('#lb').classList.add('on');document.body.style.overflow='hidden';$('#li').src=p.th;
- $('#lm').innerHTML=`<b>${esc(p.title||'')}</b><div class="k">${esc(p.name)} ${badge(p.uid)} · ❤ ${bn(p.votes||0)}</div>${dlUrl(id)?`<a class="btn s" style="margin-top:8px" target="_blank" rel="noopener" href="${esc(dlUrl(id))}">⬇ ফ্রি ডাউনলোড</a> `:''}<button class="btn s g" id="sh" style="margin-top:8px">🔗 শেয়ার</button>`;
+ $('#lm').innerHTML=`<b>${esc(p.title||'')}</b><div class="k">${esc(p.name)} ${badge(p.uid)} · ❤ ${bn(p.votes||0)}</div>${dlUrl(id)?`<a class="btn s" style="margin-top:8px" target="vp_${id}" href="${esc(dlUrl(id))}">⬇ ফ্রি ডাউনলোড</a> `:''}<button class="btn s g" id="sh" style="margin-top:8px">🔗 শেয়ার</button>`;
  $('#sh').onclick=async()=>{const u=location.origin+location.pathname+'#p='+id;try{if(navigator.share)await navigator.share({title:'ViewPix',url:u});else{await navigator.clipboard.writeText(u);toast('লিংক কপি হয়েছে')}}catch(e){}};
  if(!seen.has(id)){seen.add(id);updateDoc(doc(db,'vp_photos',id),{views:increment(1)}).then(()=>{p.views=(p.views||0)+1}).catch(()=>{})}
  try{const f=await getDoc(doc(db,'vp_full',id));if(f.exists()&&$('#lb').classList.contains('on'))$('#li').src=f.data().img}catch(e){}}
