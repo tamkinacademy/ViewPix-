@@ -17,7 +17,7 @@ const $=s=>document.querySelector(s),esc=s=>String(s==null?'':s).replace(/[&<>"'
 const bn=n=>String(n).replace(/\d/g,d=>'০১২৩৪৫৬৭৮৯'[d]),tk=n=>'৳'+bn(Math.round(n).toLocaleString('en-US'));
 let tT;const toast=m=>{const t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(tT);tT=setTimeout(()=>t.style.display='none',2200)};
 const docs=async q=>(await getDocs(q)).docs.map(d=>({id:d.id,...d.data()}));
-const DEF={prize:'৳৫০',prizeW:'৳২০০',prizeM:'৳৫০০',theme:'',prizeNote:'বিজয়ী বিকাশে পাবেন',blogUrl:'',wa:'8801942319608',blue:120,fire:150,minPhotos:10,minViews:1000,minDl:0};
+const DEF={themes:['শীতের সকাল','পাখির ছবি','গ্রামবাংলা','আকাশ ও মেঘ'],sharePct:40,prize:'৳৫০',prizeW:'৳২০০',prizeM:'৳৫০০',theme:'',prizeNote:'বিজয়ী বিকাশে পাবেন',blogUrl:'',wa:'8801942319608',blue:120,fire:150,minPhotos:10,minViews:1000,minDl:0};
 let CFG={...DEF},tab='cfg',USERS=[];const DAY=864e5;
 const TABS=[['cfg','সেটিংস'],['win','বিজয়ী'],['bdg','ব্যাজ'],['mon','মনিটাইজেশন'],['dist','আয় বণ্টন'],['pho','ছবি']];
 function shell(){$('#root').innerHTML=`<div class="row"><h1 class="f">🛠️ ViewPix অ্যাডমিন</h1><button class="btn g" id="lo">বের হন</button></div><div class="tabs">${TABS.map(t=>`<button data-t="${t[0]}" class="${tab===t[0]?'on':''}">${t[1]}</button>`).join('')}</div><div id="app"></div>`;
@@ -26,10 +26,10 @@ async function draw(){$('#app').innerHTML='<p class="k">লোড হচ্ছ�
 async function loadUsers(){USERS=await docs(collection(db,'vp_users'))}
 const F=(k,l,t)=>`<label class="k">${l}</label><input data-f="${k}" ${t?'inputmode="numeric"':''} value="${esc(CFG[k])}">`;
 async function cfg(){
- $('#app').innerHTML=`<div class="card">${F('prize','২৪ ঘণ্টার কনটেস্টের প্রাইজ (লেখা)')}${F('prizeW','৭ দিনের প্রাইজ')}${F('prizeM','৩০ দিনের প্রাইজ')}${F('theme','এখনকার থিম (ঐচ্ছিক, যেমন: শীতের সকাল)')}${F('prizeNote','প্রাইজের নিচের ছোট লেখা')}</div>
+ $('#app').innerHTML=`<div class="card">${F('prize','২৪ ঘণ্টার কনটেস্টের প্রাইজ (লেখা)')}${F('prizeW','৭ দিনের প্রাইজ')}${F('prizeM','৩০ দিনের প্রাইজ')}${F('theme','এখনকার থিম (ঐচ্ছিক, যেমন: শীতের সকাল)')}<label class="k">থিম ভোটের থিমগুলো (কমা দিয়ে আলাদা করে লেখো)</label><input data-f="themes" value="${esc((CFG.themes||[]).join(', '))}">${F('sharePct','শিল্পীদের আয়ের অংশ (%)','n')}${F('prizeNote','প্রাইজের নিচের ছোট লেখা')}</div>
  <div class="card">${F('blogUrl','Blogger ডাউনলোড পেজের লিংক (যেমন https://viewpix.blogspot.com/p/download.html)')}${F('wa','তোমার WhatsApp (৮৮০১… সহ)')}${F('blue','Blue ব্যাজ মাসিক দাম','n')}${F('fire','Fire ব্যাজ মাসিক দাম','n')}</div>
  <div class="card"><b>মনিটাইজেশনের শর্ত</b>${F('minPhotos','কমপক্ষে ছবি','n')}${F('minViews','কমপক্ষে মোট ভিউ','n')}${F('minDl','কমপক্ষে মোট ডাউনলোড (০ = শর্ত নেই)','n')}</div><button class="btn" id="sv">সেভ করুন</button>`;
- $('#sv').onclick=async()=>{document.querySelectorAll('[data-f]').forEach(i=>{const k=i.dataset.f;CFG[k]=['blue','fire','minPhotos','minViews','minDl'].includes(k)?(parseInt(i.value.replace(/\D/g,''))||0):i.value.trim()});try{await setDoc(doc(db,'vp_config','main'),CFG);toast('সেভ হয়েছে ✓')}catch(e){toast('সেভ হয়নি')}}}
+ $('#sv').onclick=async()=>{document.querySelectorAll('[data-f]').forEach(i=>{const k=i.dataset.f;CFG[k]=['blue','fire','minPhotos','minViews','minDl','sharePct'].includes(k)?(parseInt(i.value.replace(/\D/g,''))||0):k==='themes'?i.value.split(',').map(x=>x.trim()).filter(Boolean):i.value.trim()});try{await setDoc(doc(db,'vp_config','main'),CFG);toast('সেভ হয়েছে ✓')}catch(e){toast('সেভ হয়নি')}}}
 async function win(){
  const sh=Date.now()+6*36e5,dn=Math.floor(sh/DAY),iso=n=>new Date(n*DAY).toISOString().slice(0,10);const d=new Date(sh);
  const pm=new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth()-1,1)).toISOString().slice(0,7);
